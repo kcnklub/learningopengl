@@ -38,46 +38,26 @@ int main()
 
 	float firstTriangle[] = {
 		// positions          // colors
-		-0.5f, 0.0f, 0.0f,    1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
-		-0.25f, 0.5f, 0.0f,   0.0f, 0.0f, 1.0f
+		0.5f, -0.5f, 0.0f,    1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,
+		0.0f, 0.5f, 0.0f,   0.0f, 0.0f, 1.0f
 	};
-
-	float secondTriangle[] = {
-		0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.25f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-	};
-
 	// Generate vaos
-	GLuint vaos[2];
-	glGenVertexArrays(2, vaos);
+	GLuint vaos;
+	glGenVertexArrays(1, &vaos);
 
 	// Generate vbos
-	GLuint vbos[2];
-	glGenBuffers(2, vbos);
+	GLuint vbos;
+	glGenBuffers(1, &vbos);
 
-	glBindVertexArray(vaos[0]); 
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[0]); 
+	glBindVertexArray(vaos); 
+	glBindBuffer(GL_ARRAY_BUFFER, vbos); 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangle), firstTriangle, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(vaos[1]);
-	glBindBuffer(GL_ARRAY_BUFFER, vbos[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangle), secondTriangle, GL_STATIC_DRAW);
-	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -95,10 +75,10 @@ int main()
 
 		// Draw the triangle;
 		shader.use();
-		glBindVertexArray(vaos[0]);
+		glBindVertexArray(vaos);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glBindVertexArray(vaos[1]); 
+		glBindVertexArray(vaos); 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// check and call events and swap the buffers
@@ -106,8 +86,8 @@ int main()
 		glfwPollEvents();
 	}
 
-	glDeleteVertexArrays(2, vaos);
-	glDeleteBuffers(2, vbos);
+	glDeleteVertexArrays(1, &vaos);
+	glDeleteBuffers(1, &vbos);
 
 	glfwTerminate();
 	return 0;
